@@ -17,34 +17,38 @@ class EmployeeScreen extends StatelessWidget {
         ),
         body: c.employees.isEmpty ? 
         Center(child: ElevatedButton(onPressed: (){c.onChange();}, child: const Text('Load Dummy List'))) :
-         RefreshIndicator(
-          onRefresh: (){
-            return c.onChange();
+         ListView.builder(
+          itemCount: c.employees.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: ListTile(
+                onTap: () {
+                  Get.to(AddEmployeeScreen(c.employees[index]))?.then((value){
+                    c.employees[index] = value;
+                  } );
+                },
+                tileColor: const Color.fromARGB(255, 121, 173, 124),
+                leading:  CircleAvatar(backgroundColor: Colors.white, child: Text(c.employees[index].id!.toString()),),
+                title: Text(c.employees[index].name!),
+                trailing:  IconButton(onPressed: () {
+                  c.employees.removeAt(index);
+                },icon: const Icon(Icons.delete, color: Colors.red,),)),
+            );
           },
-           child: ListView.builder(
-            itemCount: c.employees.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: ListTile(
-                  onTap: () {
-                    Get.to(AddEmployeeScreen(c.employees[index]))?.then((value){
-                      c.employees[index] = value;
-                    } );
-                  },
-                  tileColor: const Color.fromARGB(255, 114, 179, 117),
-                  leading:  CircleAvatar(backgroundColor: Colors.white, child: Text(c.employees[index].id!.toString()),),
-                  title: Text(c.employees[index].name!),
-                  trailing:  IconButton(onPressed: () {
-                    c.employees.removeAt(index);
-                  },icon: const Icon(Icons.delete, color: Colors.red,),)),
-              );
-            },
-                 ),
-         ),
-        floatingActionButton: c.employees.isEmpty ? const SizedBox() : FloatingActionButton(onPressed: () {
-           Get.to(AddEmployeeScreen(null))?.then((value) => c.employees.add(value));
-        }, child: const Icon(Icons.add),),
+               ),
+        floatingActionButton: c.employees.isEmpty ? const SizedBox() : Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(onPressed: () {
+               c.onChange();
+            }, child: const Icon(Icons.refresh),),
+            const SizedBox(width: 60,),
+            FloatingActionButton(onPressed: () {
+               Get.to(AddEmployeeScreen(null))?.then((value) => c.employees.add(value));
+            }, child: const Icon(Icons.add),),
+          ],
+        ),
        ));
   }
 }
