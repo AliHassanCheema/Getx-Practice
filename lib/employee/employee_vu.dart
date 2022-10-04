@@ -17,27 +17,34 @@ class EmployeeScreen extends StatelessWidget {
         ),
         body: c.employees.isEmpty ? 
         Center(child: ElevatedButton(onPressed: (){c.onChange();}, child: const Text('Load Dummy List'))) :
-         ListView.builder(
-          itemCount: c.employees.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ListTile(
-                onTap: () {
-                  Get.to(AddEmployeeScreen(c.employees[index]))?.then((value) => c.employees.add(value));
-                },
-                tileColor: const Color.fromARGB(255, 114, 179, 117),
-                leading:  CircleAvatar(backgroundColor: Colors.white, child: Text(c.employees[index].id!.toString()),),
-                title: Text(c.employees[index].name!),
-                trailing:  IconButton(onPressed: () {
-                  c.employees.removeAt(index);
-                },icon: const Icon(Icons.delete, color: Colors.red,),)),
-            );
+         RefreshIndicator(
+          onRefresh: (){
+            return c.onChange();
           },
-        ),
+           child: ListView.builder(
+            itemCount: c.employees.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: ListTile(
+                  onTap: () {
+                    Get.to(AddEmployeeScreen(c.employees[index]))?.then((value){
+                      c.employees[index] = value;
+                    } );
+                  },
+                  tileColor: const Color.fromARGB(255, 114, 179, 117),
+                  leading:  CircleAvatar(backgroundColor: Colors.white, child: Text(c.employees[index].id!.toString()),),
+                  title: Text(c.employees[index].name!),
+                  trailing:  IconButton(onPressed: () {
+                    c.employees.removeAt(index);
+                  },icon: const Icon(Icons.delete, color: Colors.red,),)),
+              );
+            },
+                 ),
+         ),
         floatingActionButton: c.employees.isEmpty ? const SizedBox() : FloatingActionButton(onPressed: () {
-           c.onChange();
-        }, child: const Icon(Icons.refresh_rounded),),
+           Get.to(AddEmployeeScreen(null))?.then((value) => c.employees.add(value));
+        }, child: const Icon(Icons.add),),
        ));
   }
 }
