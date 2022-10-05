@@ -46,7 +46,7 @@ class EmployeeScreen extends StatelessWidget {
             heroTag: 1, child: const Icon(Icons.refresh),),
             const SizedBox(width: 60,),
             FloatingActionButton(onPressed: () {
-               Get.to(AddEmployeeScreen(null))?.then((value) => c.employees.add(value));
+               Get.to(AddEmployeeScreen(null))?.then((value) => value != null ? c.employees.add(value) : null);
             },heroTag: 2, child: const Icon(Icons.add),),
           ],
         ),

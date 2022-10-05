@@ -7,36 +7,40 @@ import 'model.dart';
 
 class EmployeeController extends GetxController{
   final formKey = GlobalKey<FormState>();
-   RxString name = ''.obs;
-   RxString id = ''.obs;
-   RxList<Employees> employees = <Employees>[].obs; 
-   Employees? employee;
+  RxString name = ''.obs;
+  RxString id = ''.obs;
+  RxList<Employees> employees = <Employees>[].obs; 
+  Employees? employee;
 
-   onChange(){
+  onChange(){
     employees.clear();
     for(int i = 0; i<10; i++){
       employees.add(Employees(generateRandomString(i+1), '${i+1}'));
     }
-   }
+  }
 
-   String generateRandomString(int length) {
+  String generateRandomString(int length) {
    var r = Random();
    const chars = 'Getx';
    return List.generate(length, (index) => chars[r.nextInt(chars.length)]).join();
-   }
+  }
 
-   onSaveName(value){
+  onSaveName(value){
     name.value = value;
-   }
-   onSaveId(value){
+  }
+  onSaveId(value){
     id.value = value;
-   }
+  }
 
-   onSave(){
+  onSave(){
     formKey.currentState!.save();
     employee = Employees(name.value, id.value);
-    Get.back(result: employee);
-   }
+    if(name.value != '' && id.value != ''){
+      Get.back(result: employee);
+    }else{
+    Get.back(result: null);
+    }
+  }
 }
 
 

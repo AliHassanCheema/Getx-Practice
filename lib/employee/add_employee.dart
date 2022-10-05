@@ -5,7 +5,7 @@ import 'package:getx_practice/employee/model.dart';
 
 class AddEmployeeScreen extends StatelessWidget {
   AddEmployeeScreen(this.employee, {super.key});
-   Employees? employee;
+  final Employees? employee;
   final EmployeeController c = Get.find();
 
   @override
@@ -34,6 +34,7 @@ class AddEmployeeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               TextFormField(
+                keyboardType: TextInputType.number,
                 onSaved: (newValue) {
                   c.onSaveId(newValue);
                 },
