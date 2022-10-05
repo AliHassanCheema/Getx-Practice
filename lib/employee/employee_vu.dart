@@ -21,7 +21,7 @@ class EmployeeScreen extends StatelessWidget {
           itemCount: c.employees.length,
           itemBuilder: (context, index) {
             return Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
               child: ListTile(
                 onTap: () {
                   Get.to(AddEmployeeScreen(c.employees[index]))?.then((value){
@@ -42,11 +42,12 @@ class EmployeeScreen extends StatelessWidget {
           children: [
             FloatingActionButton(onPressed: () {
                c.onChange();
-            }, child: const Icon(Icons.refresh),),
+            },
+            heroTag: 1, child: const Icon(Icons.refresh),),
             const SizedBox(width: 60,),
             FloatingActionButton(onPressed: () {
                Get.to(AddEmployeeScreen(null))?.then((value) => c.employees.add(value));
-            }, child: const Icon(Icons.add),),
+            },heroTag: 2, child: const Icon(Icons.add),),
           ],
         ),
        ));

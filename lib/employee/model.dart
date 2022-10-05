@@ -1,7 +1,7 @@
-import 'package:get/get.dart';
+
 
 class Employees{
   String? name;
-  RxString? id;
+  String? id;
   Employees(this.name, this.id);
 }

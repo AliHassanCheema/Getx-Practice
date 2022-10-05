@@ -15,7 +15,7 @@ class EmployeeController extends GetxController{
    onChange(){
     employees.clear();
     for(int i = 0; i<10; i++){
-      employees.add(Employees(generateRandomString(i+1), '${i+1}'.obs));
+      employees.add(Employees(generateRandomString(i+1), '${i+1}'));
     }
    }
 
@@ -34,7 +34,7 @@ class EmployeeController extends GetxController{
 
    onSave(){
     formKey.currentState!.save();
-    employee = Employees(name.value, id);
+    employee = Employees(name.value, id.value);
     Get.back(result: employee);
    }
 }
