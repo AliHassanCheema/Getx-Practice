@@ -34,6 +34,7 @@ class AddEmployeeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               TextFormField(
+                maxLength: 3,
                 keyboardType: TextInputType.number,
                 onSaved: (newValue) {
                   c.onSaveId(newValue);
