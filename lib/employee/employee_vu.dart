@@ -24,9 +24,12 @@ class EmployeeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
               child: ListTile(
                 onTap: () {
-                  Get.to(AddEmployeeScreen(c.employees[index]))?.then((value){
+                  Get.changeTheme(ThemeData.light());
+                  Get.to(()=>AddEmployeeScreen(c.employees[index]))?.then((value){
                     c.employees[index] = value;
+
                   } );
+
                 },
                 tileColor: const Color.fromARGB(255, 121, 173, 124),
                 leading:  CircleAvatar(backgroundColor: Colors.white, child: Text(c.employees[index].id!.toString()),),
@@ -46,8 +49,9 @@ class EmployeeScreen extends StatelessWidget {
             heroTag: 1, child: const Icon(Icons.refresh),),
             const SizedBox(width: 60,),
             FloatingActionButton(onPressed: () {
-               Get.to(AddEmployeeScreen(null))?.then((value) => value != null ? c.employees.add(value) : null);
-            },heroTag: 2, child: const Icon(Icons.add),),
+              Get.changeTheme(ThemeData.dark());
+               Get.to(()=>AddEmployeeScreen(null))?.then((value) => value != null ? c.employees.add(value) : null);
+            },heroTag: 2, child: const Icon(Icons.add))
           ],
         ),
        ));
