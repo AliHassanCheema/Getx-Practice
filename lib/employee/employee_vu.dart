@@ -10,50 +10,52 @@ class EmployeeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() =>
-       Scaffold(
-        appBar: AppBar(
-          title: const Text('Getx Practice'),
-          centerTitle: true,
-        ),
-        body: c.employees.isEmpty ? 
-        Center(child: ElevatedButton(onPressed: (){c.onChange();}, child: const Text('Load Dummy List'))) :
-         ListView.builder(
-          itemCount: c.employees.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
-              child: ListTile(
-                onTap: () {
-                  Get.changeTheme(ThemeData.light());
-                  Get.to(()=>AddEmployeeScreen(c.employees[index]))?.then((value){
-                    c.employees[index] = value;
+       WillPopScope(
+         onWillPop: c.onWillPop,
+         child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Getx Practice'),
+            centerTitle: true,
+            actions: [
+              Switch(value: c.isDark.value, onChanged: c.onChangeTheme)
+            ],
+          ),
+          body: c.employees.isEmpty ?
+          Center(child: ElevatedButton(onPressed: (){c.onData();}, child: const Text('Load Dummy List'))) :
+           ListView.builder(
+            itemCount: c.employees.length,
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 5,
+                child: ListTile(
+                  onTap: () {
+                    Get.to(()=>AddEmployeeScreen(c.employees[index]))?.then((value){
+                      c.employees[index] = value;
+                    } );
 
-                  } );
-
-                },
-                tileColor: const Color.fromARGB(255, 121, 173, 124),
-                leading:  CircleAvatar(backgroundColor: Colors.white, child: Text(c.employees[index].id!.toString()),),
-                title: Text(c.employees[index].name!),
-                trailing:  IconButton(onPressed: () {
-                  c.employees.removeAt(index);
-                },icon: const Icon(Icons.delete, color: Colors.red,),)),
-            );
-          },
-               ),
-        floatingActionButton: c.employees.isEmpty ? const SizedBox() : Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(onPressed: () {
-               c.onChange();
+                  },
+                  leading:  CircleAvatar(backgroundColor: Colors.white, child: Text(c.employees[index].id!.toString()),),
+                  title: Text(c.employees[index].name!),
+                  trailing:  IconButton(onPressed: () {
+                    c.employees.removeAt(index);
+                  },icon: const Icon(Icons.delete, color: Colors.red,),)),
+              );
             },
-            heroTag: 1, child: const Icon(Icons.refresh),),
-            const SizedBox(width: 60,),
-            FloatingActionButton(onPressed: () {
-              Get.changeTheme(ThemeData.dark());
-               Get.to(()=>AddEmployeeScreen(null))?.then((value) => value != null ? c.employees.add(value) : null);
-            },heroTag: 2, child: const Icon(Icons.add))
-          ],
-        ),
+                 ),
+          floatingActionButton: c.employees.isEmpty ? const SizedBox() : Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(onPressed: () {
+                 c.onData();
+              },
+              heroTag: 1, child: const Icon(Icons.refresh),),
+              const SizedBox(width: 60,),
+              FloatingActionButton(onPressed: () {
+                 Get.to(()=>AddEmployeeScreen(null))?.then((value) => value != null ? c.employees.add(value) : null);
+              },heroTag: 2, child: const Icon(Icons.add))
+            ],
+          ),
+         ),
        ));
   }
 }
