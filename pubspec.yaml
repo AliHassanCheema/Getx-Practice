@@ -38,6 +38,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   speech_to_text: ^6.0.0
+  add_numbers: 
+    git:
+      url: git@github.com:AliHassanCheema/Pkg-Practice.git
+      ref: master
 
 dev_dependencies:
   flutter_test:
