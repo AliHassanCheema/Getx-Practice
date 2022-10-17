@@ -8,6 +8,7 @@ class EmployeeController extends GetxController{
   RxString id = ''.obs;
   RxString name = ''.obs;
   RxBool isDark = false.obs;
+  Rx isValidated = false.obs;
   final formKey = GlobalKey<FormState>();
   RxList<Employees> employees = <Employees>[].obs;
 
@@ -58,6 +59,7 @@ class EmployeeController extends GetxController{
     formKey.currentState!.save();
     employee = Employees(name.value, id.value);
     if(name.value != '' && id.value != ''){
+      isValidated.value = true;
       Get.back(result: employee);
 
     }else{
